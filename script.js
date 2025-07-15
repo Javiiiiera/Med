@@ -320,7 +320,19 @@ function cumplePrerequisitos(ramo) {
     return ramo.prerrequisitos.every(id => aprobados[id] === true);
 }
 
-// Función para renderizar la malla
+// Función para obtener el nombre del año en español
+function getNombreAnio(anio) {
+    const nombres = ["Primer", "Segundo", "Tercer", "Cuarto", "Quinto", "Sexto", "Séptimo"];
+    return nombres[anio-1] || `${anio}°`;
+}
+
+// Función para obtener el número de semestre con formato
+function getNumeroSemestre(anio, semestre) {
+    const numero = (anio-1)*2 + semestre;
+    return `${numero}°`;
+}
+
+// Función para renderizar la malla (actualizada)
 function renderMalla() {
     const container = document.getElementById('malla-container');
     container.innerHTML = '';
@@ -341,7 +353,9 @@ function renderMalla() {
     for (let anio = 1; anio <= mallaData.totalAnios; anio++) {
         const anioDiv = document.createElement('div');
         anioDiv.className = 'anio-container';
-        anioDiv.innerHTML = `<h2 class="anio-title">Año ${anio}</h2>`;
+        
+        // Usar nombres en español para el año
+        anioDiv.innerHTML = `<h2 class="anio-title">${getNombreAnio(anio)} año</h2>`;
 
         // Para cada semestre (1 y 2)
         for (let semestre = 1; semestre <= 2; semestre++) {
@@ -350,7 +364,10 @@ function renderMalla() {
 
             const semestreDiv = document.createElement('div');
             semestreDiv.className = 'semestre-container';
-            semestreDiv.innerHTML = `<h3 class="semestre-title">Semestre ${(anio-1)*2 + semestre}</h3>`;
+            
+            // Usar formato 1°, 2°, etc. para los semestres
+            semestreDiv.innerHTML = `<h3 class="semestre-title">${getNumeroSemestre(anio, semestre)} semestre</h3>`;
+            
             const ramosContainer = document.createElement('div');
             ramosContainer.className = 'ramos-container';
 
